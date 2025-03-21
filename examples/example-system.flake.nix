@@ -21,7 +21,7 @@
 
     pihole = {
       url = "github:mindsbackyard/pihole-flake";
-      inputs.nixpkgs.follow = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.linger.follows = "linger";
     };
@@ -62,7 +62,7 @@
           # in another module we can now configure the lingering behaviour (could also be part of ./configuration.nix)
           { ... }: {
             # required for stable restarts of the Pi-hole container (try to remove it to see the warning from the pihole-flake)
-            boot.cleanTmpDir = true;
+            boot.tmp.cleanOnBoot = true;
 
             # the Pi-hole service configuration
             services.pihole = {
@@ -79,14 +79,14 @@
                 # expose DNS & the web interface on unpriviledged ports on all IP addresses of the host
                 # check the option descriptions for more information
                 dnsPort = 5335;
-                webProt = 8080;
+                webPort = 8080;
               };
               piholeConfig.ftl = {
                 # assuming that the host has this (fixed) IP and should resolve "pi.hole" to this address
                 # check the option description & the FTLDNS documentation for more information
                 LOCAL_IPV4 = "192.168.0.2";
               };
-              piholeCOnfig.web = {
+              piholeConfig.web = {
                 virtualHost = "pi.hole";
                 password = "password";
               };
